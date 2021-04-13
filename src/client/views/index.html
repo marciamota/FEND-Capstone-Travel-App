@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Udacity Front End Web Developer Project 4</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/styles/resets.css">
+        <link rel="stylesheet" href="/styles/base.css">
+        <link rel="stylesheet" href="/styles/header.css">
+        <link rel="stylesheet" href="/styles/form.css">
+        <link rel="stylesheet" href="/styles/footer.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="">
+                Sentiment Analyzer
+            </div>
+        </header>
+
+        <main class="container">
+            <section>
+                <form>
+                    <h2 class="instructions">Enter the URL of an article or a blog.</h2>
+                    <input id="url" type="url" name="url" placeholder="Enter the Article / Blog URL here">
+                    <input type="button" value="Submit" onclick="return Client.handleSubmit(event)">
+                </form>
+            <section>
+
+            <section class="col">
+                <strong>Article sentiment:</strong>
+                <p id="message"></p>
+                <p id="confidence"></p>
+                <p id="sentiment"></p>
+                <p id="agreement"></p>
+                <p id="irony"></p>
+                <p id="subjectivity"></p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Sentiment Analyzer 0.1</p>
+        </footer>
+
+        <script>
+            // Check that service workers are supported
+            if ('serviceWorker' in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
+            }
+        </script>
+    </body>
+</html>
