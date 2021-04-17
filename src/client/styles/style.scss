@@ -1,0 +1,60 @@
+body{
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    // background-image: url("../images/flight-wallpapers-airplane-window-higher-title-sky-clouds-43480.jpg");
+    background: center / cover no-repeat url("../images/flight-wallpapers-airplane-window-higher-title-sky-clouds-43480.jpg") fixed;
+}
+
+.container {
+    max-width: 500px;
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: rgba(225, 233, 236, 0.5);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#entryHolder{
+    font-weight: bold;
+}
+
+.headline {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.title{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+label{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-right: 5px;
+}
+
+button{
+    width: 100%;
+    height: 50px;
+    background-image: linear-gradient(rgb(238, 207, 149), rgb(245, 241, 237));
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.message {
+    padding: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+textarea{
+    width: 100%;
+}

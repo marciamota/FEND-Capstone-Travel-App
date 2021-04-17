@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const apiURL = 'https://api.meaningcloud.com/sentiment-2.1?'
+const apiURL = 'http://api.openweathermap.org/data/2.5/weather?units=imperial'
 const apiKey = process.env.API_KEY
 
 var path = require('path')
@@ -22,21 +22,41 @@ app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
 })
 
-app.post('/sentiment', async function(req, res) {
-    urlInput = req.body.url;
-    const requestURL = `${apiURL}key=${apiKey}&url=${urlInput}&lang=en`;
-    fetch(requestURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-    }).then(response => {
-        return response.json()
-    }).then(json => { 
-        res.send(json)
-    }).catch(err => {
-        res.send({error: err})
-    });
-})
+// app.post('/sentiment', async function(req, res) {
+//     urlInput = req.body.url;
+//     const requestURL = `${apiURL}key=${apiKey}&url=${urlInput}&lang=en`;
+//     fetch(requestURL, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' }
+//     }).then(response => {
+//         return response.json()
+//     }).then(json => { 
+//         res.send(json)
+//     }).catch(err => {
+//         res.send({error: err})
+//     });
+// })
 
 app.listen(8081, function () {
-    console.log('Sentiment analyzer listening on port 8081!');
+    console.log('Travel app listening on port 8081!');
 })
+
+// Setup empty JS object to act as endpoint for all routes
+projectData = {};
+
+// HTTP GET
+app.get('/all', (request, response) => {
+    response.send(projectData);
+    console.log(projectData);
+});
+
+// HTTP POST
+app.post('/add', function(request, response) {
+    projectData = {
+        temp: request.body.temp,
+        date: request.body.date,
+        content: request.body.content,
+    }
+    console.log(projectData);
+    response.send(projectData)
+});
