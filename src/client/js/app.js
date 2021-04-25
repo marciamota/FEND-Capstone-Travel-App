@@ -1,6 +1,5 @@
+import worldMap from '../images/world_map.png';
 /* Global Variables */
-// const apiKey = 'c73570622e301c7681ef0315d7f76721';
-// const apiUrl = 'http://api.openweathermap.org/data/2.5/weather?units=imperial';
 const geonamesApiKey = 'marciageonames';
 const geonamesApiUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
 
@@ -10,68 +9,81 @@ const weatherbitApiUrl2 = '&lon=';
 const weatherbitApiUrl3 = '&days='
 const weatherbitApiUrl4 = '&units=I&key=1ae7ff6781ff4187ae6c84cc0fdfd959'
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = (d.getMonth()+1)+'-'+ d.getDate()+'-'+ d.getFullYear();
+const pixabayApiKey = '21291434-7da1d52b49f837621cd05e0f9';
+const pixabayApiUrl1 = 'https://pixabay.com/api/?key='
+const pixabayApiUrl2 = '&image_type=photo&pretty=true&q=';
+
 let daysUntilTravel = -1;
 
-// document.getElementById('generate').addEventListener('click', generateMessage);
-
 function generateMessage(){
-    const zipCode = document.getElementById('zip').value.toUpperCase();
+    resetResult()
+    const city = document.getElementById('city').value.toUpperCase();
     const travelDate = new Date(document.getElementById('date').value.toUpperCase());
-    const today = new Date();
-    daysUntilTravel = Math.ceil((travelDate.getTime() - today.getTime())/(1000*60*60*24),0);
-    const feelings = document.getElementById('feelings').value;
-    getWeatherData(geonamesApiUrl,zipCode,geonamesApiKey).then((data)=>{
-        if (isValidWeatherData(data, zipCode)){
-            const postRequest = {
-                lat: data.geonames[0].lat,
-                long: data.geonames[0].lng,
-                country: data.geonames[0].countryName
-            };
-            const lat = data.geonames[0].lat;
-            const long = data.geonames[0].lng;
-            const country = data.geonames[0].countryName;
-            getWeatherbitData(lat, long, daysUntilTravel).then((data) => {
-                if (isValidWeatherbitData(data)) {
-                    const lastDateForecast = data.data[data.data.length - 1];
-                    const high_temp = lastDateForecast.high_temp;
-                    const low_temp = lastDateForecast.low_temp;
-                    const rainProb = lastDateForecast.pop;
-                    const wheatherDescription = lastDateForecast.weather.description;
-                    console.log('x');
-                } else {
-                    //Show error in Ui
-                    showError();
-                }
-            })
-            postData('/add', postRequest).then((response)=>{
-                if (response != 'error'){
-                    // Update Ui
-                    updateUI();
-                }else{
-                    // Show error in Ui
-                    showError();
-                }
-            });
-        }else{
-            //Show error in Ui
-            showError();
-        }
-    });
+    if (city === "" || travelDate === undefined) {
+        entryError.hidden = false;
+    } else {
+        const result = document.getElementById('result');
+        document.getElementById('resultTitle').innerHTML = "Processing...";
+        result.hidden = false;
+        const today = new Date();
+        daysUntilTravel = Math.ceil((travelDate.getTime() - today.getTime())/(1000*60*60*24),0);
+        getGeonamesData(geonamesApiUrl,city,geonamesApiKey).then((data)=>{
+            if (checkGeonamesData(data, city) === 'OK'){
+                const lat = data.geonames[0].lat;
+                const long = data.geonames[0].lng;
+                const country = data.geonames[0].countryName;
+                const postRequest = {
+                    city: city,
+                    country: country,
+                    lat: lat,
+                    long: long,
+                    daysUntilTravel: daysUntilTravel
+                };
+                getWeatherbitData(lat, long, daysUntilTravel).then((weatherbitData) => {
+                    if (isValidWeatherbitData(weatherbitData)) {
+                        const lastDateForecast = weatherbitData.data[weatherbitData.data.length - 1];
+                        postRequest.highTemp = lastDateForecast.high_temp;
+                        postRequest.lowTemp = lastDateForecast.low_temp;
+                        postRequest.rainProb = lastDateForecast.pop;
+                        postRequest.wheaterDescription = lastDateForecast.weather.description;
+                    } else {
+                        postRequest.wheaterDescription = 'WEATHERBIT_API_ERROR';
+                    }
+                    getPixabayData(city, country).then((pixabayData) => {
+                        if (isValidPixabayData(pixabayData)) {
+                            postRequest.pictureURL = pixabayData.hits[0].previewURL;
+                        } else {
+                            postRequest.pictureURL = worldMap;
+                        }
+                        postData('/add', postRequest).then((response)=>{
+                            if (response != 'error'){
+                                // Update Ui
+                                updateUI();
+                            }else{
+                                // Show error in Ui
+                                showError('BACKEND_ERROR');
+                            }
+                        });
+                    })
+                })
+            } else {
+                //Show error in Ui
+                showError(checkGeonamesData(data, city));
+            }
+        });
+    }
+    
 }
 
-function isValidWeatherData (data, city){
-    if (data && 
-        data != 'error' &&
-        data.geonames && 
-        data.geonames.length > 0 && 
-        data.geonames[0].asciiName &&
-        data.geonames[0].asciiName.toUpperCase() == city){
-            return true;
+function checkGeonamesData (data, city){
+    if (!data || data === 'error' || !data.geonames) {
+        return 'API_ERROR'
+    } else if (data.geonames.length == 0 || 
+        !data.geonames[0].asciiName ||
+        data.geonames[0].asciiName.toUpperCase() != city){
+            return 'CITY_NOT_FOUND'
     } 
-    return false;
+    return 'OK';
 }
 
 function isValidWeatherbitData (data){
@@ -84,8 +96,17 @@ function isValidWeatherbitData (data){
     return false;
 }
 
-//Function Get Api Weather Data
-async function getWeatherData (url, city, apiKey){
+function isValidPixabayData (data){
+    if (data && 
+        data != 'error' &&
+        data.hits && 
+        data.hits.length > 0){
+            return true;
+    } 
+    return false;
+}
+
+async function getGeonamesData (url, city, apiKey){
     try {
         const request = `${url}${city}&username=${apiKey}&style=full`;
         const response = await fetch(request);
@@ -98,10 +119,24 @@ async function getWeatherData (url, city, apiKey){
     }
 }
 
-//Function Get Api Weather Data
 async function getWeatherbitData (lat, lon, daysUntilTravel){
     try {
-        const request = `${weatherbitApiUrl1}${lat}${weatherbitApiUrl2}${lon}${weatherbitApiUrl3}${daysUntilTravel+2}${weatherbitApiUrl4}`;
+        const request = encodeURI(`${weatherbitApiUrl1}${lat}${weatherbitApiUrl2}${lon}${weatherbitApiUrl3}${daysUntilTravel+2}${weatherbitApiUrl4}`);
+        const response = await fetch(request);
+        const data = await response.json();
+        console.log(data)
+        return data;
+    } catch(error) {
+        console.log("error", error);
+        return 'error';
+    }
+}
+
+async function getPixabayData (city, country){
+    const formattedCity = city.replace(' ','+');
+    const formattedCountry = country.replace(' ','+');
+    try {
+        const request = encodeURI(`${pixabayApiUrl1}${pixabayApiKey}${pixabayApiUrl2}${formattedCity}+${formattedCountry}`);
         const response = await fetch(request);
         const data = await response.json();
         console.log(data)
@@ -137,17 +172,60 @@ async function updateUI (){
     try{
         const request = await fetch('/all');
         const allData = await request.json();
-        document.getElementById('date').innerHTML = `Date: ${allData.date}`;
-        document.getElementById('temp').innerHTML = `Temperature: ${allData.temp} &degf`;
-        document.getElementById('content').innerHTML = `I feel: ${allData.content}`;
+        document.getElementById('cityCountry').innerHTML = `Destination: ${titleCase(allData.city)}, ${titleCase(allData.country)}.`;
+        document.getElementById('daysUntilTravel').innerHTML = `There are ${allData.daysUntilTravel} days remaining before your trip.`;
+        document.getElementById('destinationImage').src = allData.pictureURL;
+        if (allData.wheaterDescription == 'WEATHERBIT_API_ERROR') {
+            showError(allData.wheaterDescription);
+        } else {
+            document.getElementById('wheaterDescription').innerHTML = `The wheater will be: ${allData.wheaterDescription}.`
+            document.getElementById('lowHighTemp').innerHTML = `Low temp: ${allData.lowTemp} &degf, High temp: ${allData.highTemp} &degf.`
+            document.getElementById('rainProb').innerHTML = `Rain probability: ${allData.rainProb}%.`
+        }
+        document.getElementById('tripDetails').hidden = false;
     }catch(error){
         console.log('error', error);
-        showError();
+        showError('BACKEND_ERROR');
     }
 }
 
-function showError (){
-    document.getElementById('content').innerHTML = "Something went wrong, please try again.";
+function showError(errorType){
+    switch(errorType) {
+        case 'API_ERROR':
+            document.getElementById('resultTitle').innerHTML = "Something went wrong, please try again.";
+            break;
+        case 'CITY_NOT_FOUND':
+            document.getElementById('resultTitle').innerHTML = "City not found, please try another city.";
+            break;
+        case 'WEATHERBIT_API_ERROR':
+            document.getElementById('resultTitle').innerHTML = "Could not get the wheater forecast, please try again.";
+            break;
+        case 'BACKEND_ERROR':
+            document.getElementById('resultTitle').innerHTML = "Something went wrong, please try again.";
+            break;
+        default:
+            document.getElementById('wheaterDescription').innerHTML = "Something went wrong, please try again.";
+    }  
 }
 
-export { generateMessage }
+function resetResult() {
+    const entryError = document.getElementById('entryError');
+    entryError.hidden = true;
+    document.getElementById('tripDetails').hidden = true;
+    document.getElementById('cityCountry').innerHTML = '';
+    document.getElementById('date').innerHTML = '';
+    document.getElementById('destinationImage').src = '';
+    document.getElementById('wheaterDescription').innerHTML = '';
+    document.getElementById('lowHighTemp').innerHTML = '';
+    document.getElementById('rainProb').innerHTML = '';
+}
+
+function titleCase(str) {
+    str = str.split(' ');
+    for (let i=0; i < str.length; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].slice(1).toLowerCase();
+    }
+    return str.join(' ');
+}
+
+export { generateMessage, titleCase }

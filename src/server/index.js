@@ -1,8 +1,8 @@
-const dotenv = require('dotenv');
-dotenv.config();
+// const dotenv = require('dotenv');
+// dotenv.config();
 
-const apiURL = 'http://api.openweathermap.org/data/2.5/weather?units=imperial'
-const apiKey = process.env.API_KEY
+// const apiURL = 'http://api.openweathermap.org/data/2.5/weather?units=imperial'
+// const apiKey = process.env.API_KEY
 
 var path = require('path')
 const express = require('express')
@@ -21,6 +21,9 @@ app.use(express.static('dist'))
 app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
 })
+
+// Setup empty JS object to act as endpoint for all routes
+var projectData = {};
 
 // app.post('/sentiment', async function(req, res) {
 //     urlInput = req.body.url;
@@ -41,8 +44,7 @@ app.listen(8081, function () {
     console.log('Travel app listening on port 8081!');
 })
 
-// Setup empty JS object to act as endpoint for all routes
-projectData = {};
+
 
 // HTTP GET
 app.get('/all', (request, response) => {
@@ -52,11 +54,9 @@ app.get('/all', (request, response) => {
 
 // HTTP POST
 app.post('/add', function(request, response) {
-    projectData = {
-        temp: request.body.temp,
-        date: request.body.date,
-        content: request.body.content,
-    }
+    projectData = request.body;
     console.log(projectData);
     response.send(projectData)
 });
+
+// module.exports = { app };

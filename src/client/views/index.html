@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <!-- <head>
-        <meta charset="utf-8">
-        <title>Udacity Front End Web Developer Project 4</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head> -->
-
     <head>
         <meta charset="UTF-8">
         <title>Travel app</title>
@@ -22,63 +16,34 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label class="" for="zip">Enter Zipcode here</label>
-                    <input class="col" type="text" id="zip" placeholder="enter zip code here">
+                    <label class="" for="zip">What city are you going to visit?</label>
+                    <input class="col" type="text" id="city" placeholder="Example: Los Angeles">
+                    <labelfor="feelings">Date of your trip </label>
+                    <input id="date" type="date">
+                    <button id="generate" type="submit"> Show my trip info </button>
+                    <p id="entryError" hidden>Please, select a city and a future date.</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                <labelfor="feelings">Date</label>
-                <input id="date" type="date">
-                <textarea id="feelings" placeholder="Enter your feelings here" rows="5" cols="50"></textarea>
-                <button id="generate" type="submit"> Generate </button>
-                </div>
-            </div>
-            <div class="row">
+            <div class="row" id="result" hidden>
                 <div class="col message">
-                    <div class="title">Most Recent Entry</div>
-                    <div class="">
-                        <div class="" id="entryHolder">
-                            <div id="date"></div>
-                            <div id="temp"></div>
-                            <div id="content"></div>
-                          </div>
+                    <div class="title" id="resultTitle">Your trip info</div>
+                    <div id="tripDetails" hidden>
+                        <div id="entryHolder">
+                            <p id="cityCountry"></p>
+                            <img src="" id="destinationImage" alt="Destination Image">
+                            <p id="daysUntilTravel"></p>
+                            <div id="wheater">
+                                <p id="wheaterDescription"></p>
+                                <p id="lowHighTemp"></p>
+                                <p id="rainProb"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- <header>
-            <div class="">
-                Sentiment Analyzer
-            </div>
-        </header> -->
-
-        <!-- <main class="container"> -->
-            <!-- <section>
-                <form>
-                    <h2 class="instructions">Enter the URL of an article or a blog.</h2>
-                    <input id="url" type="url" name="url" placeholder="Enter the Article / Blog URL here">
-                    <input type="button" value="Submit" onclick="return Client.handleSubmit(event)">
-                </form>
-            <section> -->
-
-            <!-- <section class="col">
-                <strong>Article sentiment:</strong>
-                <p id="message"></p>
-                <p id="confidence"></p>
-                <p id="sentiment"></p>
-                <p id="agreement"></p>
-                <p id="irony"></p>
-                <p id="subjectivity"></p>
-            </section> -->
-        <!-- </main> -->
-
-        <!-- <footer>
-            <p>Sentiment Analyzer 0.1</p>
-        </footer> -->
-
-        <!-- <script>
+        <script>
             // Check that service workers are supported
             if ('serviceWorker' in navigator) {
                 // Use the window load event to keep the page load performant
@@ -86,57 +51,6 @@
                     navigator.serviceWorker.register('/service-worker.js');
                 });
             }
-        </script> -->
+        </script>
     </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>Weather Journal</title>
-  <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <div class="container" id="app">
-    <div class="row">
-        <div class="col headline">
-            Weather Journal App
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="" for="zip">Enter Zipcode here</label>
-            <input class="col" type="text" id="zip" placeholder="enter zip code here">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-        <label class="" for="feelings">How are you feeling today?</label>
-        <textarea class="" id="feelings" placeholder="Enter your feelings here" rows="5" cols="50"></textarea>
-        <button class="" id="generate" type="submit"> Generate </button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col message">
-            <div class="title">Most Recent Entry</div>
-            <div class="">
-                <div class="" id="entryHolder">
-                    <div id="date"></div>
-                    <div id="temp"></div>
-                    <div id="content"></div>
-                  </div>
-            </div>
-        </div>
-    </div>
-  </div>
-  <script src="app.js" type="text/javascript"></script>
-
-</body>
-
-</html> -->

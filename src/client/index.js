@@ -10,3 +10,5 @@ import './styles/style.scss'
 // import './styles/header.scss'
 
 document.getElementById('generate').addEventListener('click', generateMessage);
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('date').setAttribute('min', today);

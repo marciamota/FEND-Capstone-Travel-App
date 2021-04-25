@@ -4,6 +4,21 @@ body{
     background: center / cover no-repeat url("../images/flight-wallpapers-airplane-window-higher-title-sky-clouds-43480.jpg") fixed;
 }
 
+label, input, button, p {
+    margin-top: 10px;
+}
+
+#entryError {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    background: rgb(6, 5, 61);
+}
+
+#destinationImage {
+    width: 100%;
+}
+
 .container {
     max-width: 500px;
 }
@@ -47,6 +62,7 @@ button{
     font-size: 20px;
     text-align: center;
     border-radius: 5px;
+    max-height: 40px;
 }
 
 .message {
