@@ -1,6 +1,8 @@
 // import { checkURL } from './js/urlChecker'
 // import { handleSubmit } from './js/formHandler'
 import { generateMessage } from './js/app';
+import { titleCase } from './js/utils';
+// import(/* webpackMode: "eager" */ `../images/world_map.png`);
 
 import './styles/style.scss'
 // import './styles/resets.scss'
@@ -12,3 +14,5 @@ import './styles/style.scss'
 document.getElementById('generate').addEventListener('click', generateMessage);
 const today = new Date().toISOString().split('T')[0];
 document.getElementById('date').setAttribute('min', today);
+
+export { titleCase }

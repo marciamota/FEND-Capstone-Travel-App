@@ -1,5 +1,6 @@
-import worldMap from '../images/world_map.png';
+import defaulImage from '../images/world_map.png';
 /* Global Variables */
+// const defaulImage = '../images/world_map.png';
 const geonamesApiKey = 'marciageonames';
 const geonamesApiUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
 
@@ -12,6 +13,16 @@ const weatherbitApiUrl4 = '&units=I&key=1ae7ff6781ff4187ae6c84cc0fdfd959'
 const pixabayApiKey = '21291434-7da1d52b49f837621cd05e0f9';
 const pixabayApiUrl1 = 'https://pixabay.com/api/?key='
 const pixabayApiUrl2 = '&image_type=photo&pretty=true&q=';
+
+
+
+function importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+}
+  
+const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
 
 let daysUntilTravel = -1;
 
@@ -53,7 +64,7 @@ function generateMessage(){
                         if (isValidPixabayData(pixabayData)) {
                             postRequest.pictureURL = pixabayData.hits[0].previewURL;
                         } else {
-                            postRequest.pictureURL = worldMap;
+                            postRequest.pictureURL = defaulImage; // worldMap;
                         }
                         postData('/add', postRequest).then((response)=>{
                             if (response != 'error'){
@@ -172,7 +183,7 @@ async function updateUI (){
     try{
         const request = await fetch('/all');
         const allData = await request.json();
-        document.getElementById('cityCountry').innerHTML = `Destination: ${titleCase(allData.city)}, ${titleCase(allData.country)}.`;
+        document.getElementById('cityCountry').innerHTML = `Destination: ${Client.titleCase(allData.city)}, ${Client.titleCase(allData.country)}.`;
         document.getElementById('daysUntilTravel').innerHTML = `There are ${allData.daysUntilTravel} days remaining before your trip.`;
         document.getElementById('destinationImage').src = allData.pictureURL;
         if (allData.wheaterDescription == 'WEATHERBIT_API_ERROR') {
@@ -220,12 +231,12 @@ function resetResult() {
     document.getElementById('rainProb').innerHTML = '';
 }
 
-function titleCase(str) {
-    str = str.split(' ');
-    for (let i=0; i < str.length; i++) {
-        str[i] = str[i][0].toUpperCase() + str[i].slice(1).toLowerCase();
-    }
-    return str.join(' ');
-}
+// function titleCase(str) {
+//     str = str.split(' ');
+//     for (let i=0; i < str.length; i++) {
+//         str[i] = str[i][0].toUpperCase() + str[i].slice(1).toLowerCase();
+//     }
+//     return str.join(' ');
+// }
 
-export { generateMessage, titleCase }
+export { generateMessage }
