@@ -24,4 +24,7 @@ Build a travel application that will show the wheater forecast of the destinatio
 4. Stop the server and reload the page.
 
 ## To use the web app
-  - Enter a city and a date on the form and click submit
+### User inputs
+1. City of destination.
+2. Start date of trip.
+3. End date of trip.
