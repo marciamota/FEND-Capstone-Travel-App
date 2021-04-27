@@ -22,6 +22,8 @@
                 <input class="col" type="text" id="city" placeholder="Example: Los Angeles">
                 <label for="date">Date of your trip </label>
                 <input id="date" type="date">
+                <label for="endDate">Return date </label>
+                <input id="endDate" type="date" disabled>
                 <button id="generate" type="submit"> Show my trip info </button>
                 <p id="entryError" hidden>Please, select a city and a future date.</p>
             </div>
@@ -34,6 +36,7 @@
                         <p id="cityCountry"></p>
                         <img src="../images/world_map.png" id="destinationImage" alt="Destination Image">
                         <p id="daysUntilTravel"></p>
+                        <p id="tripDuration"></p>
                         <div id="wheater">
                             <p id="wheaterDescription"></p>
                             <p id="lowHighTemp"></p>

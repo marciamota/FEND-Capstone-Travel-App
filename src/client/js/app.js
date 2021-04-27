@@ -15,12 +15,14 @@ const pixabayApiUrl1 = 'https://pixabay.com/api/?key='
 const pixabayApiUrl2 = '&image_type=photo&pretty=true&q=';
 
 let daysUntilTravel = -1;
+let tripDuration = 0;
 
 function generateMessage(){
     resetResult()
     const city = document.getElementById('city').value.toUpperCase();
     const travelDate = new Date(document.getElementById('date').value.toUpperCase());
-    if (city === "" || travelDate === undefined) {
+    const endDate = new Date(document.getElementById('endDate').value.toUpperCase());
+    if (city === "" || travelDate === undefined || endDate === undefined) {
         entryError.hidden = false;
     } else {
         const result = document.getElementById('result');
@@ -28,6 +30,7 @@ function generateMessage(){
         result.hidden = false;
         const today = new Date();
         daysUntilTravel = Math.ceil((travelDate.getTime() - today.getTime())/(1000*60*60*24),0);
+        tripDuration = 1 + Math.ceil((endDate.getTime() - travelDate.getTime())/(1000*60*60*24),0);
         getGeonamesData(geonamesApiUrl,city,geonamesApiKey).then((data)=>{
             if (checkGeonamesData(data, city) === 'OK'){
                 const lat = data.geonames[0].lat;
@@ -38,7 +41,8 @@ function generateMessage(){
                     country: country,
                     lat: lat,
                     long: long,
-                    daysUntilTravel: daysUntilTravel
+                    daysUntilTravel: daysUntilTravel,
+                    tripDuration: tripDuration
                 };
                 getWeatherbitData(lat, long, daysUntilTravel).then((weatherbitData) => {
                     if (isValidWeatherbitData(weatherbitData)) {
@@ -173,8 +177,10 @@ async function updateUI (){
     try{
         const request = await fetch('/all');
         const allData = await request.json();
+        document.getElementById('resultTitle').innerHTML = "Have a nice trip.";
         document.getElementById('cityCountry').innerHTML = `Destination: ${Client.titleCase(allData.city)}, ${Client.titleCase(allData.country)}.`;
         document.getElementById('daysUntilTravel').innerHTML = `There are ${allData.daysUntilTravel} days remaining before your trip.`;
+        document.getElementById('tripDuration').innerHTML = `Enjoy your ${tripDuration} day(s) trip.`;
         document.getElementById('destinationImage').src = allData.pictureURL;
         if (allData.wheaterDescription == 'WEATHERBIT_API_ERROR') {
             showError(allData.wheaterDescription);
