@@ -14,14 +14,6 @@ const pixabayApiKey = '21291434-7da1d52b49f837621cd05e0f9';
 const pixabayApiUrl1 = 'https://pixabay.com/api/?key='
 const pixabayApiUrl2 = '&image_type=photo&pretty=true&q=';
 
-// function importAll(r) {
-//     let images = {};
-//     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
-//     return images;
-// }
-  
-// const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
-
 let daysUntilTravel = -1;
 
 function generateMessage(){
