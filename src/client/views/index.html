@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Travel app</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
 
-    <body>
-        <div class="container" id="app">
-            <div class="row">
-                <div class="col headline">
-                    Travel App
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Travel app</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col headline">
+                Travel App
             </div>
-            <div class="row">
-                <div class="col">
-                    <label class="" for="zip">What city are you going to visit?</label>
-                    <input class="col" type="text" id="city" placeholder="Example: Los Angeles">
-                    <labelfor="feelings">Date of your trip </label>
-                    <input id="date" type="date">
-                    <button id="generate" type="submit"> Show my trip info </button>
-                    <p id="entryError" hidden>Please, select a city and a future date.</p>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="city">What city are you going to visit?</label>
+                <input class="col" type="text" id="city" placeholder="Example: Los Angeles">
+                <label for="date">Date of your trip </label>
+                <input id="date" type="date">
+                <button id="generate" type="submit"> Show my trip info </button>
+                <p id="entryError" hidden>Please, select a city and a future date.</p>
             </div>
-            <div class="row" id="result" hidden>
-                <div class="col message">
-                    <div class="title" id="resultTitle">Your trip info</div>
-                    <div id="tripDetails" hidden>
-                        <div id="entryHolder">
-                            <p id="cityCountry"></p>
-                            <img src="" id="destinationImage" alt="Destination Image">
-                            <p id="daysUntilTravel"></p>
-                            <div id="wheater">
-                                <p id="wheaterDescription"></p>
-                                <p id="lowHighTemp"></p>
-                                <p id="rainProb"></p>
-                            </div>
+        </div>
+        <div class="row" id="result" hidden>
+            <div class="col message">
+                <div class="title" id="resultTitle">Your trip info</div>
+                <div id="tripDetails" hidden>
+                    <div id="entryHolder">
+                        <p id="cityCountry"></p>
+                        <img src="../images/world_map.png" id="destinationImage" alt="Destination Image">
+                        <p id="daysUntilTravel"></p>
+                        <div id="wheater">
+                            <p id="wheaterDescription"></p>
+                            <p id="lowHighTemp"></p>
+                            <p id="rainProb"></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- <script>
+    <!-- <script>
             // Check that service workers are supported
             if ('serviceWorker' in navigator) {
                 // Use the window load event to keep the page load performant
@@ -53,5 +54,6 @@
                 });
             }
         </script> -->
-    </body>
+</body>
+
 </html>

@@ -6,6 +6,9 @@ body{
 
 label, input, button, p {
     margin-top: 10px;
+    &:hover {
+        background: rgb(228, 238, 228);
+    }
 }
 
 #entryError {
