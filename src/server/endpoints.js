@@ -19,10 +19,6 @@ app.get('/', function (req, res) {
 // Setup empty JS object to act as endpoint for all routes
 var projectData = {};
 
-// app.listen(8081, function () {
-//     console.log('Travel app listening on port 8081!');
-// })
-
 // HTTP GET
 app.get('/all', (request, response) => {
     response.send(projectData);
