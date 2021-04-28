@@ -15,8 +15,11 @@ Build a travel application that will show the wheater forecast of the destinatio
 1. In a terminal run "npm run build-prod".
 2. Then run "npm run start".
 3. In a browser navigate to localhost:8081 and test the App.
-### Run test
-1. To run jest test use the command "npm run test".
+
+## Run tests
+### Run jest test
+1. In a terminal run "npm run build-prod".
+2. In a terminal run "npm run test".
 ### Test service workers
 1. In a terminal run "npm run build-prod".
 2. Then run "npm run start".
