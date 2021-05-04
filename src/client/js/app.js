@@ -1,16 +1,16 @@
 import defaulImage from '../images/world_map.png';
 
 /* Global Variables */
-const geonamesApiKey = 'marciageonames';
+const geonamesApiKey = 'your_api_key';
 const geonamesApiUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
 
-const weatherbitApiKey = '1ae7ff6781ff4187ae6c84cc0fdfd959';
+const weatherbitApiKey = 'your_api_key';
 const weatherbitApiUrl1 = 'https://api.weatherbit.io/v2.0/forecast/daily?lat=';
 const weatherbitApiUrl2 = '&lon=';
 const weatherbitApiUrl3 = '&days='
 const weatherbitApiUrl4 = '&units=I&key=1ae7ff6781ff4187ae6c84cc0fdfd959'
 
-const pixabayApiKey = '21291434-7da1d52b49f837621cd05e0f9';
+const pixabayApiKey = 'your_api_key';
 const pixabayApiUrl1 = 'https://pixabay.com/api/?key='
 const pixabayApiUrl2 = '&image_type=photo&pretty=true&q=';
 
